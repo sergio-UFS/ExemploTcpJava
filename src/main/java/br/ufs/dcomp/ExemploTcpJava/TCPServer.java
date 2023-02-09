@@ -5,10 +5,15 @@ package br.ufs.dcomp.ExemploTcpJava;
 
 import java.net.*;
 import java.io.*;
+import java.util.Scanner;
+
 public class TCPServer{
     public static void main(String[] args){
         
         try {
+            
+            Scanner sc = new Scanner(System.in);
+            
             System.out.print("[ Iniciando Servidor TCP    .........................  ");
             ServerSocket ss = new ServerSocket(3300, 5, InetAddress.getByName("127.0.0.1"));
             System.out.println("[OK] ]");
@@ -28,6 +33,24 @@ public class TCPServer{
             String msg = new String(buf); // Mapeando vetor de bytes recebido para String
             
             System.out.println("  Mensagem recebida: "+ msg);
+            
+            while (true){
+                
+                String mensagem = sc.nextLine();
+                
+                byte[] buff = mensagem.getBytes();
+                
+                os.write(buff);
+                
+                byte[] receive = new byte[20];
+                
+                is.read(receive);
+                
+                String recebida = new String (receive);
+                
+                System.out.println(recebida);
+            }
+            
         }catch(Exception e){System.out.println(e);}    
         System.out.println("[ FIM ]");
     }

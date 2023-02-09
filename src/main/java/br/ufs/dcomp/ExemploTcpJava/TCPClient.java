@@ -3,11 +3,17 @@
  */
 package br.ufs.dcomp.ExemploTcpJava;
 
+
 import java.net.*;
 import java.io.*;
+import java.util.Scanner;
+
 public class TCPClient{
     public static void main(String[] args){
         try {
+            
+            Scanner sc = new Scanner(System.in);
+            
             System.out.print("[ Conectando com o Servidor TCP    ..................  ");
             Socket sock = new Socket("127.0.0.1", 3300);
             System.out.println("[OK] ]");
@@ -20,6 +26,25 @@ public class TCPClient{
             System.out.print("[ Enviando mensagem    ..............................  ");
             os.write(buf);
             System.out.println("[OK] ]");
+            
+            while (true){
+                
+                byte[] receive = new byte[20];
+                
+                is.read(receive);
+                
+                String recebida = new String (receive);
+                
+                System.out.println(recebida);
+                
+                String mensagem = sc.nextLine();
+                
+                byte[] buff = mensagem.getBytes();
+                
+                os.write(buff);
+                
+            }
+            
         }catch(Exception e){System.out.println(e);}    
         System.out.println("[ FIM ]");
     }
